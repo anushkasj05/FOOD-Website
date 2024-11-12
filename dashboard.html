@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Order Dashboard</h1>
+    </header>
+    <div class="order-summary">
+      <h2>Your Placed Orders</h2>
+      <table id="order-table" class="order-table">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Orders will be dynamically populated here -->
+        </tbody>
+      </table>
+    </div>
+    <script>
+      const apiUrl = "http://localhost:3000";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const orderTableBody = document.querySelector("#order-table tbody");
+        const response = await fetch(`${apiUrl}/orders`);
+        const orders = await response.json();
+
+        if (orders.length === 0) {
+          orderTableBody.innerHTML =
+            '<tr><td colspan="4">No orders placed yet.</td></tr>';
+        } else {
+          orders.forEach((order, index) => {
+            let total = 0;
+            let itemsList = order.items
+              .map((item) => {
+                total += item.price * item.quantity;
+                return `${item.name} (x${item.quantity}) - $${(
+                  item.price * item.quantity
+                ).toFixed(2)}`;
+              })
+              .join("<br>");
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${new Date(order.date).toLocaleString()}</td>
+                        <td>${itemsList}</td>
+                        <td>$${total.toFixed(2)}</td>
+                    `;
+            orderTableBody.appendChild(row);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

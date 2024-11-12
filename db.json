@@ -1,0 +1,23 @@
+{
+  "cart": [],
+  "orders": [
+    {
+      "id": "834d",
+      "items": [
+        {
+          "id": "62f7",
+          "name": "Pasta",
+          "price": 8.99,
+          "quantity": 1
+        },
+        {
+          "id": "6cf1",
+          "name": "Burger",
+          "price": 7.99,
+          "quantity": 1
+        }
+      ],
+      "date": "2024-11-12T13:32:27.883Z"
+    }
+  ]
+}
